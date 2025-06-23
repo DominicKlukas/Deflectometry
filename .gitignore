@@ -1,0 +1,23 @@
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Image/data output
+data/
+results/
+blender/
+*.npy
+*.png
+*.jpg
+
+# Jupyter/IPython stuff (if applicable)
+*.ipynb_checkpoints/
+
+# OS junk
+.DS_Store
+Thumbs.db
