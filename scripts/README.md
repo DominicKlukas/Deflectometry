@@ -52,13 +52,22 @@ pip install -r requirements.txt
 Example script calls
 
 generate_pattern.py
-```bash
-python3 scripts/calibrate_response.py --image-dir data/display_patterns/2k_by_2k/images/image_050.png --points 0,0,1200,1200,500,500,800,800
-```
+
 calibrate_response.py
 
 ```bash
-python3 scripts/calibrate_response.py --image-dir data/display_patterns/2k_by_2k/images/image_050.png --points 0,0,1200,1200,500,500,800,800
+python3 scripts/calibrate_response.py --image-dir data/blender/Calibration_X_result.png --points 424,0,1491,0,375,1015,1544,1015
+```
+
+generate_sgmf.py
+```bash
+python3 scripts/generate_sgmf.py interactive --screen-res 2000 2000 --input-file output/ --output-file data/SGMF/sgmf.npy
+```
+```bash
+python3 scripts/generate_sgmf.py compute --screen-res 2000 2000 --input-file output/ --output-file data/SGMF/sgmf.npy --eps 0.07 --max-N 5
+```
+```bash
+python3 scripts/generate_sgmf.py visualize --input-file output/ 
 ```
 
 Or run the full pipeline:

@@ -180,7 +180,7 @@ class FringePattern:
                 item_path = os.path.join(file_path, item)
                 if os.path.isdir(item_path):  # Check if it's a folder
                     shutil.rmtree(item_path)  # Delete the folder and its contents
-        print(f"Deleted all files inside: {file_path}")
+        print(f"Deleted all files inside: {file_path}") 
 
 def main():
     parser = argparse.ArgumentParser(description="Determine Calibration Images")
