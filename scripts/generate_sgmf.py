@@ -75,7 +75,7 @@ class SGMFGenerator:
         # Get the arguments ready
         mf = cl.mem_flags
         global_size = (2*2, self.res[0], self.res[1]) # 2 cameras, 2 axes, and resolutionl
-        sgmf = np.empty((2, 2, self.res[0], self.res[1]), np.float32) # camera, axis, x_res, y_res
+        sgmf = np.empty((2, 2, self.res[0], self.res[1]), np.int32) # camera, axis, x_res, y_res
         data = self.data.reshape(-1)
         input_buf = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=data)
         output_buf = cl.Buffer(ctx, mf.WRITE_ONLY, sgmf.nbytes)
@@ -408,8 +408,8 @@ if __name__ == "__main__":
     sg.max_N = 5
     print(sg.eps, flush=True)
     print(sg.max_N, flush=True)
-    sgmf2 = sg.gen_sgmf()
-    sg.save_SGMF(sgmf2, "data/SGMF/sgmf1.npy")
+    sgmf = sg.gen_sgmf()
+    sg.save_SGMF(sgmf, "data/SGMF/sgmf.npy")
 
 def main():
     parser = argparse.ArgumentParser(
@@ -476,8 +476,8 @@ def main():
         sg.import_data(args.input_file)
         sg.plot_slices()
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()
 """
 compute_sgmf.py interactive --input-file path --output-file loc
 compute_sgmf.py interactive --input-file path --output-file loc --eps 0.5 --max-N 5

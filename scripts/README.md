@@ -70,7 +70,6 @@ python3 scripts/generate_sgmf.py compute --screen-res 2000 2000 --input-file out
 python3 scripts/generate_sgmf.py visualize --input-file output/ 
 ```
 
-Or run the full pipeline:
 
 ```bash
 bash run_pipeline.sh
@@ -120,33 +119,3 @@ python scripts/unwrap_phase.py \
 ```
 
 ---
-
-## Sample Output
-
-| Step             | Output File                |
-| ---------------- | -------------------------- |
-| Calibration      | `results/calibration.json` |
-| Phase Unwrapping | `results/unwrap.npy`       |
-| Mapping          | `results/mapping.npy`      |
-| Visualization    | `results/mapping_plot.png` |
-
----
-
-## TODO
-
--
-
----
-
-## License
-
-MIT License — see LICENSE file.
-
----
-
-## Questions?
-
-Contact: `your.email@example.com`\
-Or open an issue on GitHub.
-
-

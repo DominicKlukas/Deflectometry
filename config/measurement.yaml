@@ -1,0 +1,35 @@
+meta:
+  collected_by: Dominic
+  date: 2025-06-18
+  description: "Blender Setup with Two Cameras"
+  notes: "Angles given in degrees"
+
+screen:
+  center_m: [0.0, -2.5, 5.0]
+  rotation_deg: [-45.0, 180.0, 0.0]
+  scale_m: [2.0, 2.0]
+  resolution: [2000, 2000]
+
+cameras:
+  - name: cam0
+    focal_point_m: [0.0, 3.0, 5.5]
+    rotation_deg: [-29.0, 0.0, 0.0]
+    focal_length_mm: 61.93
+    sensor_width_mm: 36.0
+    resolution: [1920, 1080]
+
+  - name: cam1
+    focal_point_m: [0.0, 2.5, 6.0]
+    rotation_deg: [-23.0, 0.0, 0.0]
+    focal_length_mm: 61.93
+    sensor_width_mm: 36.0
+    resolution: [1920, 1080]
+
+search_region:
+  rectangle_c1: [-3.0, -3.0, -0.5]
+  rectangle_c2: [3.0, 3.0, 0.5]
+  resolution_xy: 0.05
+  resolution_z: 0.00001
+  epsilon: 0.0000001 # This is the threshold for the error value (1 - norm(n1, n2)) computed in the algorithm for a result to be considered valid
+  error_value: -1000.0 # This is the sentry value for errors (normal vectors not within eps of each other, or no pixel value even found)
+

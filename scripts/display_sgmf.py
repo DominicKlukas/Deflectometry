@@ -3,15 +3,15 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
 
 # Load both NumPy files
-file1 = np.load("data/SGMF/sgmf1.npy", allow_pickle=True)
-file2 = np.load("data/SGMF/sgmf3.npy", allow_pickle=True)
+file1 = np.load("data/SGMF/sgmf.npy", allow_pickle=True)
+file2 = np.load("data/SGMF/sgmf.npy", allow_pickle=True)
 
 # Extract grayscale values from both files
 image1_raw_1 = np.array([[file1[0, 0, i, j] for j in range(1080)] for i in range(1920)], dtype=np.float32)
 image1_raw_2 = np.array([[file1[0, 1, i, j] for j in range(1080)] for i in range(1920)], dtype=np.float32)
 
-image2_raw_1 = np.array([[file2[0, 0, i, j] for j in range(1080)] for i in range(1920)], dtype=np.float32)
-image2_raw_2 = np.array([[file2[0, 1, i, j] for j in range(1080)] for i in range(1920)], dtype=np.float32)
+image2_raw_1 = np.array([[file1[1, 0, i, j] for j in range(1080)] for i in range(1920)], dtype=np.float32)
+image2_raw_2 = np.array([[file1[1, 1, i, j] for j in range(1080)] for i in range(1920)], dtype=np.float32)
 
 # Create figure for slice visualization
 fig, (ax_y, ax_x) = plt.subplots(1, 2, figsize=(12, 5))

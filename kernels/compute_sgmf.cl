@@ -1,7 +1,7 @@
 #define M_2PI 6.2831853071795864f
+#define SGMF_ERROR_VALUE -1000
 __kernel void  generate_data(__global float *data,
-
-                         __global float *sgmf,
+                         __global int *sgmf,
                          __const int width,
                          __const int height,
                          __const float eps,
@@ -12,8 +12,7 @@ __kernel void  generate_data(__global float *data,
                          ) {
     // These comes from the global_size tuple, and enumerate all of the work items
     // There are 2 SGMF's for the two cameras, each with two dimensions
-    int id = get_global_id(0); 
-    int x = get_global_id(1); // X pixel index
+    int id = get_global_id(0); int x = get_global_id(1); // X pixel index
     int y = get_global_id(2); // Y pixel index
 
     int camera = id / 2;
@@ -35,8 +34,20 @@ __kernel void  generate_data(__global float *data,
     }
 
     // Final scaling: r * scr_res[ax] / (2π × 2^(max_N - 2))
-    if (ax == 0)
-        sgmf[sgmf_idx] = r*(float)scr_res_x / (M_2PI * (1 << (max_N - 2)));
-    else
-        sgmf[sgmf_idx] = r*(float)scr_res_y / (M_2PI * (1 << (max_N - 2)));
+    if (ax == 0) {
+        int value = (int)(r*(float)scr_res_x / (M_2PI * (1 << (max_N - 2))));
+        if(value >= 0 && value < scr_res_x){
+            sgmf[sgmf_idx] = value;
+        } else {
+            sgmf[sgmf_idx] = SGMF_ERROR_VALUE;
+        }
+    }
+    else {
+        int value = (int)(r*(float)scr_res_y / (M_2PI * (1 << (max_N - 2))));
+        if(value >= 0 && value < scr_res_y){
+            sgmf[sgmf_idx] = value;
+        } else {
+            sgmf[sgmf_idx] = SGMF_ERROR_VALUE;
+        }
+    }
 }
