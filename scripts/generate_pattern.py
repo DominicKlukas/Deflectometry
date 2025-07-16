@@ -61,7 +61,7 @@ class FringePattern:
         self.delete_files_inside(file_path)
 
         # Now create a new "results/images/" folder
-        images_folder = os.path.join(file_path, "images/")
+        images_folder = file_path
         os.makedirs(images_folder, exist_ok=True)
         print(images_folder)
 

@@ -242,8 +242,8 @@ class SGMFGenerator:
         # Initial slice positions based on resolution
         y_index = self.res[1] // 2  # Middle row for Y-slice
         x_index = self.res[0] // 2  # Middle column for X-slice
-        eps_init = 0.02  # Initial epsilon value
-        max_N_init = self.N  # Default to full range
+        eps_init = 0.05  # Initial epsilon value
+        max_N_init = 5  # Default to full range
         cam = 0
 
         # Compute initial slices
@@ -345,6 +345,7 @@ class SGMFGenerator:
 
         # Get the reference image to determine the resolution
         ref_img = np.asarray(cv2.imread(import_filepath + files[0], cv2.IMREAD_GRAYSCALE))
+        print(np.shape(ref_img), flush=True)
         self.res = (ref_img.shape[1], ref_img.shape[0])
 
         # pre-allocate the input array
