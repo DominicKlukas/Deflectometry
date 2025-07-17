@@ -9,10 +9,8 @@ env/
 
 # Image/data output
 data/
-results/
-blender/
+images/
 *.npy
-*.png
 *.jpg
 
 # Jupyter/IPython stuff (if applicable)

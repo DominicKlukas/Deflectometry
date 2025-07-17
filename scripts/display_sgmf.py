@@ -2,6 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
 
+
+"""
+This is a simple script that will display the data in a saved SGMF array that is saved as an .npy file.
+Simply update the filepath for file1 and file2, and ensure the cameras that you want are displayed in image1 and image2.
+"""
+
+
 # Load both NumPy files
 file1 = np.load("data/SGMF/sgmf.npy", allow_pickle=True)
 file2 = np.load("data/SGMF/sgmf.npy", allow_pickle=True)

@@ -1,6 +1,8 @@
 # Deflectometry Toolkit
 
-A series of python scripts for structured-light deflectometry in blender, including pattern generation for screens, calibrating screen intensity, a phase unwrapping algorithm, a geometric reconstruction algorithm, and result visualization.
+A python script for structured-light deflectometry in blender, including pattern generation for screens, calibrating screen intensity, a phase unwrapping algorithm, a geometric reconstruction algorithm, and result visualization.
+
+(Image showing how it works)
 
 ---
 
@@ -8,9 +10,9 @@ A series of python scripts for structured-light deflectometry in blender, includ
 
 - Generate the patterns for screen projection required by the algorithm
 - A tool to enable you to calibrate the projection screen brightness for optimal camera sensor response
-- Intermediate step allows you to calibrate noise removal and maximum wavelength used in phase unwrapping algorithm which computes a mapping between camera sensor pixels and screen image pixels from which they originate. In a UI, the phase unwrapping is graphed with respect to user selected noise parameter and maximum wavelength settings. The stored phase unwrapped-data then proceeds with the selected settings.
-- Outputs a 3D surface map.
-- Computed with OpenCL GPU parallel processing, massively reducing compute time
+- Intermediate step with a GUI allows you to calibrate noise removal and maximum wavelength used in the phase unwrapping algorithm. (The phase unwrapping algorithm computes a map between pixels in the captured images and original screen, essentially tracking rays of light from the screen to the camera).
+- Outputs a graph of the 3D surface map.
+- Each step uses OpenCL GPU parallel processing, massively reducing compute time.
 
 ---
 
@@ -19,17 +21,21 @@ A series of python scripts for structured-light deflectometry in blender, includ
 ```
 deflectometry-project/
 ├── scripts/                # Processing scripts
-│   ├── calibrate_response.py
-│   ├── config_loader.py
-│   ├── display_sgmf.py
-│   ├── generate_pattern.py
-│   ├── generate_sgmf.py
-│   └── generate_surface.py
+│   ├── calibrate_response.py   # Tool to help calibrate screen brightness
+│   ├── config_loader.py    # Loads and converts measurements to datatypes used by algorithm
+│   ├── display_sgmf.py     # Special script to visualize a Simple Geometric Mapping Function
+│   ├── generate_pattern.py # Generates images that are projected by screen in deflectometry setup
+│   ├── generate_sgmf.py    # Runs phase unwrapping algorithm to create camera-screen "sgmf" map
+│   └── generate_surface.py # Computes the surface from SGMF and measurement data
 ├── data/                   
-│   ├── display_patterns    # Folder to store display patterns (not used by script, but by deflectometry setup)
-├── images/                 # Good place to store captured camera images
+│   └── display_patterns    # Folder to store display patterns (for deflectometry setup, not scripts)
+├── images/                 # Good place to store captured camera images from deflectometry setup
 ├── config/
 │   └── measurements.yaml   # Camera/Screen measurements used by computations
+├── kernels/                # Stores OpenCL kernel code
+│   ├── compute_sgmf.cl     # Computes SGMF
+│   ├── compute_surface.cl  # Computes surface 
+│   └── compute_unwrap_phase.cl   # Unwraps phase
 ├── main.py                 # CLI entry point
 └── README.md
 ```
@@ -63,13 +69,13 @@ In particular, enter the screen resolution and the location to store the calibra
 
 1. Display your image on your screen, and capture an image with your camera as the screen reflects off of a flat mirror.
 2. In the capture image, determine the pixels of the endpoints of lines going from 0 intensity to full intensity.
-(Show an image of the pixels, and give them names)
 3. Run the following script.
 ```bash
 python scripts/calibrate_response.py --image-dir data/display_patterns/calibration_images/captured_calibration_image_x.png --points 375,1010,1542,1010
 ```
 4. Determine a region where the intensity response is relatively linear. Then, determine the average intensity and amplitude which sets the bounds within this linear region.
-(Show an image of the calibration)
+
+
 
 #### Screen Pattern Generation
 
@@ -80,8 +86,7 @@ python scripts/generate_pattern.py --save-dir data/display_patterns/blender_scre
 
 #### Taking Camera Measurements
 
-Edit `config/measurements.yaml` with the following parameters:
-(Show a well documented image, with images of screen, camera, and rectangle measurements).
+Edit `config/measurements.yaml`, entering the screen and camera properties directly from blender (rotation, translation, focal length, aspect ratio (must be calculated), sensor width. Also, specify the search parameters: the bottom back left, and top front right corners of the rectangular prism that contains the surace, the resolution of the points within the rectangle you would like to search, and an error parameter which determines what error between the two camera measurements is acceptable for a measurement to be considered valid. 
 
 #### Rendering the images
 Ensure that the correct images are being displayed, as an animation, in the screen.
@@ -118,48 +123,3 @@ pip install -r requirements.txt
 
 ---
 
-## Example Usage
-
-```bash
-python scripts/generate_surface.py --input-image-folder images/sphere/
-```
-
----
-
-## Other Useful Standalone Script Functions
-
-Example script calls
-
-### generate_pattern.py
-
-This generates image patterns to be displayed on the screen.
-
-TODO
-
-### calibrate_response.py
-
-The mappings are fundamentally computed using screen pixel intensity values on reflected off of a surface captured by a camera. Consequentially, the mapping between intensity values measured by the camera for a corresponding intensity value on the screen is very important. In particular, the sinusoidal images should have a maximum and minimum intensity in a range where the measured camera intesnity responds linearly to changes in screen pixel intensity. A good way to ensure this is to take an image of the screen as it displays linearly increasing pixel intensity.
-
-The following script analyzes such an image by requiring a list of lines ((x1, y1, x2, y2) are the end points) whose intensity is then displayed in a graph which can then be viewed, to determine a region where the intensity increase is linear.
-
-```bash
-python3 scripts/calibrate_response.py --image-dir data/blender/Calibration_X_result.png --points 424,0,1491,0,375,1015,1544,1015
-```
-
-### generate_sgmf.py
-
-You may want to generate the Simple Geometric Mapping Function on its own and store it as a .npy file, since it is smaller than the underlying image files.
-
-You can use the "interactive" (which lets you visually see the effects on SGMF noise when you adjust algorithm parameters, "espilon" and "N").
-```bash
-python3 scripts/generate_sgmf.py interactive --screen-res 2000 2000 --input-file output/ --output-file data/SGMF/sgmf.npy
-```
-Alternatively, if you have pre-determined SGMF parameters in mind, you can compute it right away.
-```bash
-python3 scripts/generate_sgmf.py compute --screen-res 2000 2000 --input-file output/ --output-file data/SGMF/sgmf.npy --eps 0.07 --max-N 5
-```
-The visualize function lets you take a look at your raw data, after it has been phase-unwrapped.
-```bash
-python3 scripts/generate_sgmf.py visualize --input-file output/ 
-```
----

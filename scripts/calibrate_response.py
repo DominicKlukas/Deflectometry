@@ -35,9 +35,14 @@ def plot_calibration_intensities(x_arrays, y_arrays, colors):
     (line_plot,) = ax.plot(x_line, y_line, "r--", label="Adjustable Line")
 
     # Labels and legend
-    ax.set_xlabel("X Values")
-    ax.set_ylabel("Y Intensities")
+    ax.set_xlabel("Screen Pixel Intensity")
+    ax.set_ylabel("Camera Pixel Intensity")
     ax.set_title("Image Intensities")
+    ticks = np.linspace(x_min, x_max, 7)
+    # compute labels in the 0–255 range
+    labels = (ticks / (x_max - x_min) * 255).astype(int)
+    ax.set_xticks(ticks)
+    ax.set_xticklabels(labels)
     ax.legend()
     position_m = (0.2, 0.1, 0.65, 0.03)
     position_b = (0.2, 0.05, 0.65, 0.03)
@@ -81,9 +86,10 @@ def analyze_calibration_image(file_path, pixel_arrays, colors):
         # 2. Convert the Pillow Image to a NumPy array
         image_array = np.array(image)
         min_x, min_y, max_x, max_y = p_arr
-        x_values = np.array(range(max_x - min_x))
+        x_values = np.array(range(abs(max_x - min_x)))
         y_values = []
-        for x in np.arange(min_x, max_x):
+        for i in range(len(x_values)):
+            x = min_x + np.sign(max_x - min_x)*i
             y = (int)((x-min_x)*(max_y - min_y)/(max_x - min_x)) + min_y
             if len(image_array.shape) > 2:
                 y_values += [image_array[y][x][0]]
