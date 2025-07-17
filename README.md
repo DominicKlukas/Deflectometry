@@ -71,7 +71,7 @@ In particular, enter the screen resolution and the location to store the calibra
 2. In the capture image, determine the pixels of the endpoints of lines going from 0 intensity to full intensity.
 3. Run the following script.
 ```bash
-python scripts/calibrate_response.py --image-dir data/display_patterns/calibration_images/captured_calibration_image_x.png --points 375,1010,1542,1010
+python scripts/calibrate_response.py --image-dir data/display_patterns/calibration_images/captured_calibration_image_x.png --points 1542,1010,375,1010
 ```
 4. Determine a region where the intensity response is relatively linear. Then, determine the average intensity and amplitude which sets the bounds within this linear region.
 
@@ -82,7 +82,7 @@ python scripts/calibrate_response.py --image-dir data/display_patterns/calibrati
 
 Given the mean intensity I and the amplitude A, run the following command:
 ```bash
-python scripts/generate_pattern.py --save-dir data/display_patterns/blender_screen/ --screen-resolution 2000 2000 --image-intensity I=50 A=25 --mode s --max-N 8
+python scripts/generate_pattern.py --save-dir data/display_patterns/blender_screen/ --screen-resolution 2000 2000 --image-intensity 85.5 58.5 --mode s --max-N 8
 ```
 
 #### Taking Camera Measurements
