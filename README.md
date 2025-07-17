@@ -8,8 +8,8 @@ A python script for structured-light deflectometry in blender, including pattern
 
 ## Features
 
-- Generate the patterns for screen projection required by the algorithm
-- A tool to enable you to calibrate the projection screen brightness for optimal camera sensor response
+- Includes a script to generate the images for screen projection required by the algorithm
+- A tool to enable you to calibrate the screen brightness for optimal camera sensor response
 - Intermediate step with a GUI allows you to calibrate noise removal and maximum wavelength used in the phase unwrapping algorithm. (The phase unwrapping algorithm computes a map between pixels in the captured images and original screen, essentially tracking rays of light from the screen to the camera).
 - Outputs a graph of the 3D surface map.
 - Each step uses OpenCL GPU parallel processing, massively reducing compute time.
