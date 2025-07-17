@@ -116,10 +116,9 @@ Enjoy the results! You may need to adjust the search area/camera positions if no
 ## Requirements
 
 - Python 3.9+
-- NumPy, OpenCV, Matplotlib
-- (Optional) PyTorch or SciPy if needed
+- OpenCL installed on your computer
 
-Install with:
+Install python requirements with:
 
 ```bash
 pip install -r requirements.txt
