@@ -80,10 +80,11 @@ python scripts/calibrate_response.py --image-dir data/display_patterns/calibrati
 
 #### Screen Pattern Generation
 
-Given the mean intensity I and the amplitude A, run the following command:
+Given the mean intensity M (in this case, 81.5) and the amplitude A (58.5), run the following command:
 ```bash
 python scripts/generate_pattern.py --save-dir data/display_patterns/blender_screen/ --screen-resolution 2000 2000 --image-intensity 85.5 58.5 --mode s --max-N 8
 ```
+Max_N determines the max wavelength to use for the generated images.
 
 #### Taking Camera Measurements
 
