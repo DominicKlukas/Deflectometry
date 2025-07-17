@@ -2,7 +2,7 @@
 
 A python script for structured-light deflectometry in blender, including pattern generation for screens, calibrating screen intensity, a phase unwrapping algorithm, a geometric reconstruction algorithm, and result visualization.
 
-![Deflectometry System Description](readme_images/Calibration_Image.png "Deflectometry System Description")
+![Deflectometry System Description](readme_images/Deflectometry_Description.png "Deflectometry System Description")
 
 ---
 
@@ -106,7 +106,7 @@ python main.py --input-image-folder images/sinusoidal/
 4. Keep N as high as possible to decrease noise.
 5. Check both cameras, and other x/y values to ensure the calibration works well for all x and y. Then, close the window. The surface generation algorithm will proceed with the last selected values.
 
-![SGMF Calibration](readme_images/Calibration_Image.png "SGMF Calibration")
+![SGMF Calibration](readme_images/SGMF_Calibration.png "SGMF Calibration")
 
 Enjoy the results! You may need to adjust the search area/camera positions if no matching points are found.
 
